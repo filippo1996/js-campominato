@@ -13,7 +13,48 @@
 var difficulty = 100;
 
 //Creiamo l'array contenente i 16 numeri generati da 1 a difficulty (default 100)
-console.log(getCreateNumber(difficulty));
+var itemsNumRandom = getCreateNumber(difficulty)
+console.log(itemsNumRandom);
+
+//Input numero dall'utente in base alla difficoltà impostata
+console.log(logicGame(difficulty, itemsNumRandom));
+
+/**
+ * Funzione che effettua la logica del gioco
+ * @param {number} max
+ * @param {array} arrayNum
+ * @returns
+ */
+function logicGame(max, arrayNum){
+    var status = true;
+    var levels = max - 16;
+    var chosenNumbers = [];
+    while(status && levels){
+        var numUser = parseInt(prompt('Inserisci un numero compreso da 1 a 100'));
+        if(!isNaN(numUser) && (numUser >= 1 && numUser <= max)){
+            if(!searchElement(chosenNumbers, numUser)){
+                if(searchElement(arrayNum, numUser)){
+                    status = false;
+                    alert('Hai perso, hai fatto esplodere la bomba');
+                }else{
+                    levels--;
+                    chosenNumbers.push(numUser);
+                    alert('Hai vinto, livelli rimanenti ' + levels);
+                }
+            }else{
+                alert('Hai già scelto questo numero ' + numUser + ' riprova con un altro numero');
+            }
+        }else{
+            alert('Valore errato, riprova!');
+        }
+    }
+
+    if(status){
+        console.log('Congratulazioni hai superato tutti i livelli, Il tuo punteggio massimo è ' + chosenNumbers.length);
+    }else{
+        console.log('Game Over il tuo punteggio è ' + chosenNumbers.length);
+    }
+} 
 
 /**
  * Funzione che cerca se l'elemento esiste nell'array
