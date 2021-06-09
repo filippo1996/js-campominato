@@ -11,8 +11,6 @@
 
 //Livello difficoltà
 var difficulty = 100;
-//Numero di livelli
-var levels = difficulty - 16;
 //Array contenente i numeri che l'utente sceglierà
 var chosenNumbers = [];
 //Elementi box nell'html
@@ -34,6 +32,9 @@ switch(chooseLevel){
         difficulty = 50;
         break;
 }
+
+//Numero di livelli
+var levels = difficulty - 16;
 
 
 //Creiamo l'array contenente i 16 numeri generati da 1 a difficulty (default 100)
@@ -170,7 +171,7 @@ function getCreateNumber(rangeMax){
             itemsNum.push(randomNum);
         }
     }
-    return itemsNum;
+    return itemsNum.sort((a, b) => a - b);
 }
 
 /**
