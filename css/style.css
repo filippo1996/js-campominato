@@ -1,0 +1,40 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    width: 40%;
+    margin: 50px auto;
+}
+
+h1{
+    text-align: center;
+}
+
+.box{
+    width: calc(100% / 10);
+    height: 57px;
+    background: gray;
+    border: 2px solid black;
+    cursor: pointer;
+    float: left;
+}
+
+.clearfix::after{
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.bomb{
+    background: url(../img/t-1.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 2px solid red;
+}
+
+.white{
+    background: white;
+}

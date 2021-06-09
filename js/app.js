@@ -11,20 +11,40 @@
 
 //Livello difficoltà
 var difficulty = 100;
+//Numero di livelli
+var levels = difficulty - 16;
+//Array contenente i numeri che l'utente sceglierà
+var chosenNumbers = [];
+//Elementi box nell'html
+var ele = document.getElementsByClassName('box');
 
 //Creiamo l'array contenente i 16 numeri generati da 1 a difficulty (default 100)
 var itemsNumRandom = getCreateNumber(difficulty)
 console.log(itemsNumRandom);
 
-//Input numero dall'utente in base alla difficoltà impostata
-console.log(logicGame(difficulty, itemsNumRandom));
+//Inseriamo gli elementi (box) nell'HTML
+insertionEleDom(difficulty);
+
+//avviare l'evento a ogni click dell'elemento
+for(i = 0; i < ele.length; i++){
+    var eventGame = ele[i].addEventListener('click', function(event){
+        var result =  logicGame(difficulty, itemsNumRandom, Array.from(ele).indexOf(event.target) + 1, event.target);
+        if(result){
+            window.location.reload();
+        }
+    });
+}
+
+
 
 /**
+ * Esempio con il prompt
  * Funzione che effettua la logica del gioco
  * @param {number} max
  * @param {array} arrayNum
  * @returns
  */
+/*
 function logicGame(max, arrayNum){
     var status = true;
     var levels = max - 16;
@@ -55,6 +75,53 @@ function logicGame(max, arrayNum){
         console.log('Game Over il tuo punteggio è ' + chosenNumbers.length);
     }
 } 
+*/
+
+
+/**
+ * Esempio con l'evento al click nell'html
+ * Funzione che effettua la logica del gioco
+ * @param {number} max
+ * @param {array} arrayNum
+ * @param {number} numUser
+ * @param {object} ele
+ * @returns {boolean}
+ */
+ function logicGame(max, arrayNum, numUser, ele){
+    if(numUser >= 1 && numUser <= max){
+        if(!searchElement(chosenNumbers, numUser)){
+            if(searchElement(arrayNum, numUser)){
+                ele.className += ' bomb';
+                alert('Game Over, hai fatto esplodere la bomba! Il tuo punteggio è ' + chosenNumbers.length);
+                return true;
+            }else{
+                chosenNumbers.push(numUser);
+                ele.className += ' white';
+            }
+        }
+    }else{
+        alert('Valore errato, riprova!');
+    }
+    
+    //Controllo della vincita
+    if(chosenNumbers.length === levels){
+        alert('Congratulazioni hai superato tutti i livelli, Il tuo punteggio massimo è ' + chosenNumbers.length);
+        return true;
+    }
+} 
+
+/**
+ * Funzione che crea elementi nel DOM
+ * @param {number} quantity
+ */
+function insertionEleDom(quantity){
+    //Creare elementi nel DOM
+    for(var i = 0; i < quantity ; i++){
+        var eleBox = document.createElement('div');
+        eleBox.className = 'box';
+        document.getElementById('grid').appendChild(eleBox);
+    }
+}
 
 /**
  * Funzione che cerca se l'elemento esiste nell'array
