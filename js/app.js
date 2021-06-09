@@ -18,6 +18,24 @@ var chosenNumbers = [];
 //Elementi box nell'html
 var ele = document.getElementsByClassName('box');
 
+//Facciamo selezionare all'utente il livello di gioco
+var chooseLevel = parseInt(prompt('Inserisci il numero di livello gioco: 1  2 o 3'));
+
+while(isNaN(chooseLevel) || (chooseLevel <= 0 || chooseLevel > 3)){
+    alert('Attenzione inserisci un valore da 1 a 3');
+    chooseLevel = parseInt(prompt('Inserisci il numero di livello gioco: 1  2 o 3'));
+}
+
+switch(chooseLevel){
+    case 2:
+        difficulty = 80;
+        break;
+    case 3:
+        difficulty = 50;
+        break;
+}
+
+
 //Creiamo l'array contenente i 16 numeri generati da 1 a difficulty (default 100)
 var itemsNumRandom = getCreateNumber(difficulty)
 console.log(itemsNumRandom);
@@ -27,7 +45,7 @@ insertionEleDom(difficulty);
 
 //avviare l'evento a ogni click dell'elemento
 for(i = 0; i < ele.length; i++){
-    var eventGame = ele[i].addEventListener('click', function(event){
+    ele[i].addEventListener('click', function(event){
         var result =  logicGame(difficulty, itemsNumRandom, Array.from(ele).indexOf(event.target) + 1, event.target);
         if(result){
             window.location.reload();
